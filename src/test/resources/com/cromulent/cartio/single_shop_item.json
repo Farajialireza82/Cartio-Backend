@@ -1,0 +1,6 @@
+{
+  "id": 1,
+  "name": "bread",
+  "amount": 2,
+  "is_bought": false
+}

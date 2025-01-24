@@ -23,7 +23,7 @@ class CartioApplicationTests {
 	@Test
 	@DirtiesContext
 	void shouldCreateANewShopItem(){
-		ShopItem newShopItem = new ShopItem(null, "bread", 5, false);
+		ShopItem newShopItem = new ShopItem(null, "bread", "5", false);
 		ResponseEntity<Void> createResponse = restTemplate
 				.postForEntity("/shopItems", newShopItem, Void.class);
 		assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);

@@ -26,9 +26,9 @@ class CartioJsonTests {
     @BeforeEach
     void setUp() {
         shopItems = Arrays.array(
-                new ShopItem(1L, "bread", 2, false),
-                new ShopItem(2L, "egg", 10, false),
-                new ShopItem(3L, "milk", 1, true)
+                new ShopItem(1L, "bread", "2", false),
+                new ShopItem(2L, "egg", "10", false),
+                new ShopItem(3L, "milk", "1", true)
         );
     }
 
@@ -59,9 +59,9 @@ class CartioJsonTests {
                 """;
 
         assertThat(json.parse(expected))
-                .usingRecursiveComparison().isEqualTo(new ShopItem(1L, "bread", 2, false));
+                .usingRecursiveComparison().isEqualTo(new ShopItem(1L, "bread", "2", false));
         assertThat(json.parseObject(expected).getId()).isEqualTo(1);
-        assertThat(json.parseObject(expected).getAmount()).isEqualTo(2);
+        assertThat(json.parseObject(expected).getAmount()).isEqualTo("2");
         assertThat(json.parseObject(expected).getName()).isEqualTo("bread");
         assertThat(json.parseObject(expected).isBought()).isEqualTo(false);
     }

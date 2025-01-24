@@ -12,13 +12,13 @@ public class ShopItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    int amount;
+    String amount;
     @JsonProperty("is_bought")
     boolean isBought;
 
     public ShopItem(){}
 
-    public ShopItem(Long id, String name, int amount, boolean isBought) {
+    public ShopItem(Long id, String name, String amount, boolean isBought) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -41,11 +41,11 @@ public class ShopItem {
         this.name = name;
     }
 
-    public int getAmount() {
+    public String  getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

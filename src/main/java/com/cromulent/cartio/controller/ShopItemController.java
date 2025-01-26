@@ -4,12 +4,14 @@ package com.cromulent.cartio.controller;
 import com.cromulent.cartio.model.MinimalShopItem;
 import com.cromulent.cartio.model.ShopItem;
 import com.cromulent.cartio.repository.ShopItemRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,7 @@ public class ShopItemController {
 
     @PutMapping
     private ResponseEntity<ShopItem> editShopItem(@RequestBody ShopItem newShopItem) {
-        if(shopItemRepository.existsById(newShopItem.getId())){
+        if (shopItemRepository.existsById(newShopItem.getId())) {
             shopItemRepository.save(newShopItem);
             return ResponseEntity.noContent().build();
         }
@@ -58,11 +60,27 @@ public class ShopItemController {
 
     @DeleteMapping("/{requestedId}")
     private ResponseEntity<ShopItem> deleteShopItem(@PathVariable("requestedId") Long id) {
-        if(shopItemRepository.existsById(id)){
+        if (shopItemRepository.existsById(id)) {
             shopItemRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> deleteShopItems(@RequestBody List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            shopItemRepository.deleteAllById(ids);
+            return ResponseEntity.ok().build();
+        } catch (EmptyResultDataAccessException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 

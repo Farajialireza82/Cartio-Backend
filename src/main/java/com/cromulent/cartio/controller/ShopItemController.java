@@ -83,5 +83,26 @@ public class ShopItemController {
         }
     }
 
+    @PostMapping("/markBought")
+    public ResponseEntity<Void> markShopItemsAsBought(@RequestBody List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<ShopItem> shopItems = new ArrayList<>();
+        for (ShopItem shopItem : shopItemRepository.findAllById(ids)) {
+            shopItems.add(shopItem);
+        }
+
+        if (shopItems.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        shopItems.forEach(shopItem -> shopItem.setBought(true));
+        shopItemRepository.saveAll(shopItems);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 }

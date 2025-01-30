@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/shopItems")
+@RequestMapping("/api/shopItems")
 public class ShopItemController {
 
     ShopItemRepository shopItemRepository;
@@ -30,10 +30,10 @@ public class ShopItemController {
             @RequestBody MinimalShopItem newShopItem,
             UriComponentsBuilder ucb
     ) {
-        ShopItem shopItem = new ShopItem(null, newShopItem.name(), newShopItem.amount(), false);
+           ShopItem shopItem = new ShopItem(null, newShopItem.name(), newShopItem.amount(), false);
         ShopItem savedShopItem = shopItemRepository.save(shopItem);
         URI locationOfNewShopItem = ucb
-                .path("/shopItems/{id}")
+                .path("/api/shopItems/{id}")
                 .buildAndExpand(savedShopItem.getId())
                 .toUri();
         return ResponseEntity.created(locationOfNewShopItem).build();
